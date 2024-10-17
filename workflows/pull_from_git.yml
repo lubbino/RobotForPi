@@ -1,0 +1,21 @@
+# .github/workflows/pull-from-git.yml
+name: Pull from Git
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  pull-code:
+    runs-on: self-hosted # Use the self-hosted runner
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          repository: lubbino/RobotForPi
+          token: ${{ secrets.GITHUB_TOKEN }} # Automatically provided by GitHub
+
+      - name: Pull from Git
+        run: |
+          git pull origin main
