@@ -31,8 +31,8 @@ $server_ip = $_SERVER['SERVER_ADDR'];
             background-color: #0056b3;
         }
         #box {
-            width: 300px;
-            height: 300px;
+            width: 296px;
+            height: 296px;
             border: 2px solid #000;
             margin-top: 20px;
             position: relative;
