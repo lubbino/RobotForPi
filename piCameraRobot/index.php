@@ -37,6 +37,7 @@ $server_ip = $_SERVER['SERVER_ADDR'];
             margin-top: 20px;
             position: relative;
             background-color: #eaeaea;
+            border-radius: 50%;
         }
     </style>
 </head>
@@ -46,7 +47,7 @@ $server_ip = $_SERVER['SERVER_ADDR'];
     <button onclick="controlMotor('move_backward', 360)">Move Backward</button>
 
     <h1>Track Mouse Position</h1>
-    <div id="box">Move your mouse in the box</div>
+    <div id="box">Move your mouse in the circle</div>
 
     <script>
         function controlMotor(command, degrees) {
