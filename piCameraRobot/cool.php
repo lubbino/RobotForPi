@@ -42,7 +42,7 @@ $server_ip = $_SERVER['SERVER_ADDR'];
     <button onclick="controlMotor('move_backward', 360)">Move Backward</button>
 
     <h3>Set Motor Speed:</h3>
-    <input type="range" id="slider" min="-100" max="100" value="0" oninput="updateSliderValue(this.value)" onchange="sendSliderValue(this.value)">
+    <input type="range" id="slider" min=-100 max=100 value=0 oninput="updateSliderValue(this.value)" onchange="sendSliderValue(this.value)">
     <p>Speed: <span id="sliderValue">50</span>%</p>
 
     <script>
