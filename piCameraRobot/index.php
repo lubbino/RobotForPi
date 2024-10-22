@@ -42,9 +42,11 @@ $server_ip = $_SERVER['SERVER_ADDR'];
     </style>
 </head>
 <body>
+    <!--
     <h1>Control the Motor</h1>
     <button onclick="controlMotor('move_forward', 360)">Move Forward</button>
     <button onclick="controlMotor('move_backward', 360)">Move Backward</button>
+    -->
 
     <h1>Track Mouse Position</h1>
     <p>Move your mouse in the circle!</p>
@@ -52,7 +54,7 @@ $server_ip = $_SERVER['SERVER_ADDR'];
 
     <script>
         // Motor control function
-        function controlMotor(command, degrees) {
+        /*function controlMotor(command, degrees) {
             const xhr = new XMLHttpRequest();
             xhr.open("POST", "http://<?php echo $server_ip; ?>:5000/control_motor", true);
             xhr.setRequestHeader("Content-Type", "application/json");
@@ -75,6 +77,7 @@ $server_ip = $_SERVER['SERVER_ADDR'];
 
             xhr.send(data);
         }
+            */
 
         // Mouse tracking logic
         const box = document.getElementById('box');
