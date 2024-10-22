@@ -30,20 +30,12 @@ $server_ip = $_SERVER['SERVER_ADDR'];
         button:hover {
             background-color: #0056b3;
         }
-        #slider {
-            width: 300px;
-        }
     </style>
 </head>
 <body>
     <h1>Control the Motor</h1>
-    
     <button onclick="controlMotor('move_forward', 360)">Move Forward</button>
     <button onclick="controlMotor('move_backward', 360)">Move Backward</button>
-
-    <h3>Set Motor Speed:</h3>
-    <input type="range" id="slider" min=-100 max=100 value=0 oninput="updateSliderValue(this.value)" onchange="sendSliderValue(this.value)">
-    <p>Speed: <span id="sliderValue">50</span>%</p>
 
     <script>
         function controlMotor(command, degrees) {
@@ -65,30 +57,6 @@ $server_ip = $_SERVER['SERVER_ADDR'];
             const data = JSON.stringify({
                 command: command,
                 degrees: degrees
-            });
-
-            xhr.send(data);
-        }
-
-        function updateSliderValue(value) {
-            document.getElementById('sliderValue').innerText = value;
-        }
-
-        function sendSliderValue(value) {
-            const xhr = new XMLHttpRequest();
-            xhr.open("POST", "http://<?php echo $server_ip; ?>:5000/update_speed", true);
-            xhr.setRequestHeader("Content-Type", "application/json");
-
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState === XMLHttpRequest.DONE) {
-                    if (xhr.status !== 200) {
-                        alert('Error: ' + xhr.status);
-                    }
-                }
-            };
-
-            const data = JSON.stringify({
-                speed: value
             });
 
             xhr.send(data);
