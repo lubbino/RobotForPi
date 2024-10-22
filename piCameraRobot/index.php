@@ -51,6 +51,7 @@ $server_ip = $_SERVER['SERVER_ADDR'];
     <div id="box"></div>
 
     <script>
+        // Motor control function
         function controlMotor(command, degrees) {
             const xhr = new XMLHttpRequest();
             xhr.open("POST", "http://<?php echo $server_ip; ?>:5000/control_motor", true);
@@ -89,21 +90,25 @@ $server_ip = $_SERVER['SERVER_ADDR'];
             sendMousePositionToFlask(x, y);
         });
 
+        // Function to send mouse position data with XMLHttpRequest
         function sendMousePositionToFlask(x, y) {
-            fetch('http://<?php echo $server_ip; ?>:5000/receive_mouse_position', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ x: x, y: y })
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Response from Flask server:', data);
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
+            const xhr = new XMLHttpRequest();
+            xhr.open("POST", "http://<?php echo $server_ip; ?>:5000/receive_mouse_position", true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        const response = JSON.parse(xhr.responseText);
+                        console.log('Mouse data sent:', response);
+                    } else {
+                        console.error('Error sending mouse data:', xhr.status);
+                    }
+                }
+            };
+
+            const data = JSON.stringify({ x: x, y: y });
+            xhr.send(data);
         }
     </script>
 </body>
