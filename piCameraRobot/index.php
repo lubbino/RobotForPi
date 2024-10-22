@@ -47,7 +47,7 @@ $server_ip = $_SERVER['SERVER_ADDR'];
     <button onclick="controlMotor('move_backward', 360)">Move Backward</button>
 
     <h1>Track Mouse Position</h1>
-    <p>Move your mouse in the circle</p>
+    <p>Move your mouse in the circle!</p>
     <div id="box"></div>
 
     <script>
