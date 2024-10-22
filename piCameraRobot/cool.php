@@ -7,7 +7,7 @@ $server_ip = $_SERVER['SERVER_ADDR'];
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Control Motor</title>
+    <title>Control Mostor</title>
     <style>
         body {
             font-family: Arial, sans-serif;
