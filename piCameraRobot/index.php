@@ -51,7 +51,7 @@ $server_ip = $_SERVER['SERVER_ADDR'];
     <h1>Track Cursor Position</h1>
     <p>Move your mouse in the circle!</p>
     <div id="box"></div>
-    <button onclick="sendMousePositionToFlask(0,0)">Stop</button>
+    <button onclick="sendMousePositionToFlask(150,150)">Stop</button>
 
     <script>
         // Motor control function
