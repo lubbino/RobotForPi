@@ -89,7 +89,7 @@ $server_ip = $_SERVER['SERVER_ADDR'];
             // Log the current mouse position
             console.log(`Mouse Position: (${x}, ${y})`);
 
-            // Send the mouse position to Flask server
+            // Send the mouse position to Flask server 
             sendMousePositionToFlask(x, y);
         });
 
