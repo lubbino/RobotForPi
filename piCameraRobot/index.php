@@ -39,6 +39,37 @@ $server_ip = $_SERVER['SERVER_ADDR'];
             background-color: #eaeaea;
             border-radius: 50%;
         }
+        .d-pad {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-rows: 1fr 1fr 1fr;
+            gap: 10px;
+        }
+
+        .up {
+            grid-column: 2;
+            grid-row: 1;
+        }
+
+        .left {
+            grid-column: 1;
+            grid-row: 2;
+        }
+
+        .stop {
+            grid-column: 2;
+            grid-row: 2;
+        }
+
+        .right {
+            grid-column: 3;
+            grid-row: 2;
+        }
+
+        .down {
+            grid-column: 2;
+            grid-row: 3;
+        }
     </style>
 </head>
 <body>
@@ -51,13 +82,13 @@ $server_ip = $_SERVER['SERVER_ADDR'];
     <h1>Track Cursor Position</h1>
     <p>Move your mouse in the circle!</p>
     <div id="box"></div>
-    <button onclick="sendMousePositionToFlask(150,150)">Stop</button>
-    <div>
-        <button onclick="sendMousePositionToFlask(150, 0)">Forward</button>
-        <button onclick="sendMousePositionToFlask(0, 150)">Left</button>
-        <button onclick="sendMousePositionToFlask(300, 150)">Right</button>
-        <button onclick="sendMousePositionToFlask(150, 300)">Backwards</button>
-
+   
+    <div class="d-pad">
+        <button class="up" onclick="sendMousePositionToFlask(150, 0)">Forward</button>
+        <button class="left" onclick="sendMousePositionToFlask(0, 150)">Left</button>
+        <button class="stop" onclick="sendMousePositionToFlask(150,150)">Stop</button>
+        <button class="right" onclick="sendMousePositionToFlask(300, 150)">Right</button>
+        <button class="down" onclick="sendMousePositionToFlask(150, 300)">Backwards</button>
     </div>
 
     <script>
