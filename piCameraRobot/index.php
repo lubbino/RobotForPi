@@ -52,6 +52,13 @@ $server_ip = $_SERVER['SERVER_ADDR'];
     <p>Move your mouse in the circle!</p>
     <div id="box"></div>
     <button onclick="sendMousePositionToFlask(150,150)">Stop</button>
+    <div>
+        <button onclick="sendMousePositionToFlash(150, 0)">Forward</button>
+        <button onclick="sendMousePositionToFlash(0, 150)">Left</button>
+        <button onclick="sendMousePositionToFlash(300, 150)">Right</button>
+        <button onclick="sendMousePositionToFlash(150, 300)">Backwards</button>
+
+    </div>
 
     <script>
         // Motor control function
