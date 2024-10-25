@@ -16,7 +16,7 @@ $serverIP = $_SERVER['SERVER_ADDR'];
     <script>
         const serverIP = "<?php echo $serverIP; ?>";
         let gamepadIndex = null;
-        const deadzoneThreshold = 0.1; // Define the deadzone threshold for the axes
+        const deadzoneThreshold = 0; // Define the deadzone threshold for the axes
 
         const buttonLabels = [
             "A", "B", "X", "Y", "Left Bumper", "Right Bumper", "Left Trigger", "Right Trigger",
