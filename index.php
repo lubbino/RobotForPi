@@ -8,10 +8,21 @@ $serverIP = $_SERVER['SERVER_ADDR'];
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gamepad Status</title>
+    <style>
+        #video-feed {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid black; /* Optional: Add border to video feed */
+        }
+    </style>
 </head>
 <body>
     <h1>Gamepad Status</h1>
     <div id="gamepad-status">No gamepad detected.</div>
+
+    <!-- Video Feed from Flask server -->
+    <h2>Video Feed</h2>
+    <img id="video-feed" src="http://<?php echo $serverIP; ?>:5000/video_feed" alt="Video Feed" />
 
     <script>
         const serverIP = "<?php echo $serverIP; ?>";
@@ -116,7 +127,7 @@ $serverIP = $_SERVER['SERVER_ADDR'];
             if (gamepads[0]) {
                 updateGamepadStatus();  // Update status for the first gamepad
             }
-        }, 20); // Check every 100ms
+        }, 20); // Check every 20ms
 
     </script>
 </body>
