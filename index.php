@@ -73,12 +73,13 @@ $serverIP = $_SERVER['SERVER_ADDR'];
 
             // Filter axes within the deadzone threshold
             const filteredAxes = gamepad.axes.map((axis, index) => {
-                const value = Math.abs(axis) < deadzoneThreshold ? 0 : axis.toFixed(2);
-                return {
-                    label: axisLabels[index] || `Axis ${index}`,
-                    value: value
-                };
-            }).filter(axis => axis.value !== 0);
+            const value = Math.abs(axis) < deadzoneThreshold ? 0 : axis.toFixed(2);
+            return {
+                label: axisLabels[index] || `Axis ${index}`,
+                value: value
+            };
+            }).filter(axis => axis.value !== null && axis.value !== undefined);
+
 
             // Display active axes only
             filteredAxes.forEach(axis => {
