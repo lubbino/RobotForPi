@@ -25,19 +25,44 @@ $serverIP = $_SERVER['SERVER_ADDR'];
         const axisLabels = ["Left Stick X", "Left Stick Y", "Right Stick X", "Right Stick Y"];
 
         // Send gamepad data to the Flask server only if data is meaningful
-        function sendGamepadData(data) {
-            if (!serverIP || !data.buttons.length && !data.axes.length) return; // Skip if no active input
+        let lastSentTime = 0;
+        const throttleTime = 20;  // Time in milliseconds between each send
 
-            const xhr = new XMLHttpRequest();
-            xhr.open("POST", `http://${serverIP}:5000/update_gamepad`, true);
-            xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState === 4 && xhr.status === 200) {
-                    console.log("Server response:", xhr.responseText);
-                }
-            };
-            xhr.send(JSON.stringify(data));
+        function sendGamepadData(gamepad) {
+            const currentTime = new Date().getTime();
+            
+            if (currentTime - lastSentTime >= throttleTime) {
+                lastSentTime = currentTime;
+
+                // Collect gamepad data
+                const data = {
+                    id: gamepad.index,
+                    buttons: gamepad.buttons.map((button, index) => ({
+                        label: `Button ${index}`,
+                        pressed: button.pressed
+                    })),
+                    axes: gamepad.axes.map((axis, index) => ({
+                        label: `Axis ${index}`,
+                        value: axis
+                    }))
+                };
+
+                // Send to Flask server
+                const xhr = new XMLHttpRequest();
+                xhr.open('POST', '/update_gamepad', true);
+                xhr.setRequestHeader('Content-Type', 'application/json');
+                xhr.send(JSON.stringify(data));
+            }
         }
+
+        // Poll gamepad status at regular intervals
+        setInterval(() => {
+            const gamepads = navigator.getGamepads();
+            if (gamepads[0]) {
+                sendGamepadData(gamepads[0]);  // Send data for the first gamepad
+            }
+        }, 10);  // Check every 10ms, but data will only be sent every `throttleTime` milliseconds
+
 
         // Listen for gamepad connection and disconnection
         window.addEventListener("gamepadconnected", (event) => {
