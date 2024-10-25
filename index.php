@@ -17,6 +17,8 @@ $serverIP = $_SERVER['SERVER_ADDR'];
         const serverIP = "<?php echo $serverIP; ?>";
         let gamepadIndex = null;
         const deadzoneThreshold = 0.1; // Define the deadzone threshold for the axes
+        const throttleTime = 20; // Time in milliseconds between each send
+        let lastSentTime = 0; // Store the last time data was sent
 
         const buttonLabels = [
             "A", "B", "X", "Y", "Left Bumper", "Right Bumper", "Left Trigger", "Right Trigger",
@@ -26,17 +28,24 @@ $serverIP = $_SERVER['SERVER_ADDR'];
 
         // Send gamepad data to the Flask server only if data is meaningful
         function sendGamepadData(data) {
-            if (!serverIP || !data.buttons.length && !data.axes.length) return; // Skip if no active input
+            const currentTime = new Date().getTime();
+            
+            // Only send if enough time has passed since the last send
+            if (currentTime - lastSentTime >= throttleTime) {
+                lastSentTime = currentTime; // Update the last sent time
 
-            const xhr = new XMLHttpRequest();
-            xhr.open("POST", `http://${serverIP}:5000/update_gamepad`, true);
-            xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState === 4 && xhr.status === 200) {
-                    console.log("Server response:", xhr.responseText);
-                }
-            };
-            xhr.send(JSON.stringify(data));
+                if (!serverIP || !(data.buttons.length || data.axes.length)) return; // Skip if no active input
+
+                const xhr = new XMLHttpRequest();
+                xhr.open("POST", `http://${serverIP}:5000/update_gamepad`, true);
+                xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        console.log("Server response:", xhr.responseText);
+                    }
+                };
+                xhr.send(JSON.stringify(data));
+            }
         }
 
         // Listen for gamepad connection and disconnection
@@ -73,13 +82,12 @@ $serverIP = $_SERVER['SERVER_ADDR'];
 
             // Filter axes within the deadzone threshold
             const filteredAxes = gamepad.axes.map((axis, index) => {
-            const value = Math.abs(axis) < deadzoneThreshold ? 0 : axis.toFixed(2);
-            return {
-                label: axisLabels[index] || `Axis ${index}`,
-                value: value
-            };
-            }).filter(axis => axis.value !== null && axis.value !== undefined);
-
+                const value = Math.abs(axis) < deadzoneThreshold ? 0 : axis.toFixed(2);
+                return {
+                    label: axisLabels[index] || `Axis ${index}`,
+                    value: value
+                };
+            }).filter(axis => axis.value !== null && axis.value !== undefined && axis.value !== "0.00");
 
             // Display active axes only
             filteredAxes.forEach(axis => {
@@ -101,6 +109,15 @@ $serverIP = $_SERVER['SERVER_ADDR'];
             // Continue polling for updates
             requestAnimationFrame(updateGamepadStatus);
         }
+
+        // Start polling for gamepad status when the page loads
+        setInterval(() => {
+            const gamepads = navigator.getGamepads();
+            if (gamepads[0]) {
+                updateGamepadStatus();  // Update status for the first gamepad
+            }
+        }, 20); // Check every 100ms
+
     </script>
 </body>
 </html>
